@@ -1,0 +1,373 @@
+#include<stdio.h>
+#include<malloc.h>
+//#include<process.h>
+
+struct node * insert_beg(struct node *, int);
+struct node * insert_end(struct node *, int);
+struct node * insert_before(struct node *, int, int);
+struct node * insert_after(struct node *, int, int);
+struct node * delete_beg(struct node *);
+struct node * delete_last(struct node *);
+struct node * delete_given_node(struct node *, int);
+struct node * search(struct node *, int);
+int count_node(struct node *);
+struct node * display(struct node *);
+
+struct node
+{
+	int info;
+	struct node * link;
+};
+
+struct node * CreateNode(int x)
+{
+	struct node * new_node = (struct node *)malloc(sizeof(struct node *));
+	new_node -> info = x;
+	return new_node;
+}
+
+void main()
+{
+	int choice, x, n;
+	struct node * first = NULL;
+	do
+	{
+		printf("Press 1 to insert element at beginning\n");
+		printf("Press 2 to insert element at end\n");
+		printf("Press 3 to insert element before the node\n");
+		printf("Press 4 to insert element after the node\n");
+		printf("Press 5 to delete first node\n");
+		printf("Press 6 to delete last node\n");
+		printf("Press 7 to delete the given node\n");
+		printf("Press 8 to search node/s\n");
+		printf("Press 9 to count total nodes\n");
+		printf("Press 10 to display elements\n");
+		printf("Press 0 to Exit\n");
+		scanf("%d", &choice);
+			
+		switch(choice)
+		{
+			case 1:
+				printf("Inserting at beginning\n");
+				printf("Enter value to be inserted:");
+				scanf("%d", &x);
+				first = insert_beg(first, x);
+				break;
+					
+			case 2:
+				printf("Inserting at end\n");
+				printf("Enter value to be inserted:");
+				scanf("%d", &x);
+				first = insert_end(first, x);
+				break;
+				
+			case 3:
+				printf("Inserting element before the node\n");
+				printf("Enter value of element before which u want to enter the element:");
+				scanf("%d", &n);
+				printf("Enter value to be inserted before node:");
+				scanf("%d", &x);
+				first = insert_before(first, x, n);
+				break;
+				
+			case 4:
+				printf("Inserting element after the node\n");
+				printf("Enter value of element after which u want to enter the element:");
+				scanf("%d", &n);
+				printf("Enter value to be inserted after node:");
+				scanf("%d", &x);
+				first = insert_after(first, x, n);
+				break;
+				
+			case 5:
+				printf("Deleting first node operation\n");
+				first = delete_beg(first);
+				break;
+					
+			case 6:
+				printf("Deleting last node operation\n");
+				first = delete_last(first);
+				break;
+						
+			case 7:
+				printf("Deleting the given node operation\n");
+				printf("Enter the value of node which u want to delete:");
+				scanf("%d", &n);
+				first = delete_given_node(first, n);
+				break;
+				
+			case 8:
+				printf("Searching node operation\n");
+				printf("Enter the value of node which u want to search:");
+				scanf("%d", &x);
+				first = search(first, x);
+				break;
+				
+			case 9:
+				printf("Counting total number of nodes\n");
+				int c = count_node(first);
+				printf("Total nodes are:%d\n", c);
+				break;
+				 
+			case 10:
+				printf("Display Operation\n");
+				display(first);
+				break;
+					
+			case 0:
+			 	exit(0);
+				break;	
+				
+			default:
+				printf("Enter valid number\n");		
+		}
+	}
+	while(1);
+}
+
+struct node * insert_beg(struct node * first, int x)
+{
+	struct node * new_node = CreateNode(x);
+	if(first == NULL)
+	{
+		new_node -> link = NULL;
+	}
+	else
+	{
+		new_node -> link = first;
+	}
+	first = new_node;
+	return first;
+}
+
+struct node * insert_end(struct node * first, int x)
+{
+	struct node * new_node = CreateNode(x);
+	struct node * ptr = first;
+	
+	if(first == NULL)
+	{
+		new_node -> link = NULL;
+		first = new_node;
+	}
+	else
+	{
+		while(ptr -> link != NULL)
+		{
+			ptr = ptr->link;
+		}
+		ptr -> link = new_node;
+		new_node -> link = NULL;
+	}
+	return first;
+}
+
+struct node * insert_before(struct node* first, int x, int n)
+{
+	struct node * new_node = CreateNode(x);
+	struct node * ptr = first;
+	struct node * preptr = first;
+	
+	if(ptr == NULL)
+	{
+		printf("Node not found\nLinked list is empty\n");
+	}
+	else
+	{
+		if(first == NULL)
+		{
+			new_node -> link = first;
+			first = new_node;
+		}
+		else
+		{
+			while(ptr -> info != n)
+			{
+				preptr = ptr;
+				ptr = ptr -> link;
+			}
+		}
+		new_node -> link = preptr -> link;
+		preptr -> link = new_node;
+	}
+	return first;
+}
+
+struct node * insert_after(struct node * first, int x, int n)
+{
+	struct node * new_node = CreateNode(x);
+	struct node * ptr = first;
+	struct node * preptr = first;
+	
+	if(ptr == NULL)
+	{
+		printf("Node not found\nLinked list is empty\n");
+	}
+	else
+	{
+		if(first == NULL)
+		{
+			printf("Linked list is empty\n");
+		}
+		while(preptr -> info != n)
+		{
+			preptr = ptr;
+			ptr = ptr -> link;
+		}
+		new_node -> link = ptr;
+		preptr -> link = new_node;
+	}
+	return first;
+}
+
+struct node * delete_beg(struct node * first)
+{
+	struct node * ptr = first;
+	if(first == NULL)
+	{
+		printf("Linked list is empty\n");	
+	}	
+	else 
+	{
+		first = ptr -> link;
+		free(ptr);
+	}
+	return first;
+}
+
+struct node * delete_last(struct node * first)
+{
+	struct node * ptr = first;
+	struct node * preptr = first;
+	
+	if(first == NULL)
+	{
+		printf("Linked list is empty\n");	
+	}	
+	else if(first -> link == NULL)
+	{
+		first = NULL;
+		free(ptr);
+	}
+	else
+	{
+		while(ptr -> link != NULL)
+		{
+			preptr = ptr;
+			ptr = ptr -> link;
+		}
+		preptr -> link = NULL;
+		free(ptr);
+	}
+	return first;
+}
+
+struct node * delete_given_node(struct node * first, int n)
+{
+	struct node * ptr = first;
+	struct node * preptr = first;
+	int flag=0;
+	if(first == NULL)
+	{
+		printf("Linked list is empty\n");
+	}
+	else if(first -> info  == n)
+	{
+		first = first -> link;
+		free(ptr);
+	}
+	else if(first -> link == NULL)
+	{
+		free(ptr);
+		first = NULL;
+	}
+	else
+	{
+		while(ptr -> info != n)
+		{
+			preptr = ptr;
+			ptr = ptr -> link;
+			if(ptr == NULL)
+		    {
+		        flag=1;
+		    	printf("Node not Found\n");
+		    	break;
+		    }		
+		}
+		if(flag=0)
+		{
+		    preptr -> link = ptr -> link;
+	    	free(ptr);
+		}
+	}
+	return first;
+}
+
+struct node * search(struct node * first, int x)
+{
+	struct node * ptr = first;
+	int flag = 0;
+	
+	if(first == NULL)
+	{
+		printf("Linked list is empty\n");
+	}
+	else
+	{
+		while(ptr != NULL)
+		{
+			if(ptr -> info == x)
+			{
+				flag = 1;
+				break;
+			}
+			ptr = ptr -> link;
+		}
+	}
+	if(flag == 1)
+	{
+		printf("Node found successfully!!\n");
+	}
+	else
+	{
+		printf("Node not found!!\n");
+	}
+	return first;
+}
+
+int count_node(struct node * first)
+{
+	struct node * ptr = first;
+	int count = 0;
+	if(first == NULL)
+	{
+		printf("Linked list is empty\n");
+	}
+	else
+	{
+		while(ptr != NULL)
+		{
+			count++;
+			ptr = ptr -> link;
+		}
+	}
+	return count;
+}
+
+struct node * display(struct node* first)
+{
+	struct node * ptr = first;
+	if(first == NULL)
+	{
+		printf("Linked list is empty\n");
+	}
+	else
+	{
+		printf("Linked list data:\n");
+		while(ptr != NULL)
+		{
+			printf("%d\t", ptr -> info);
+			ptr = ptr -> link;
+		}
+	}
+}
