@@ -1,0 +1,115 @@
+#include<stdio.h>
+#include<stdlib.h>
+void enqueue(int[], int, int);
+void dequeue(int[], int, int);
+void display(int[], int);
+void average(int[], int);
+int front = -1, rear = -1;
+
+void main()
+{
+	int choice, x, a[100], n, i;
+	printf("Enter capacity:");
+	scanf("%d", &n);
+	do
+	{
+		printf("1.Enqueue Operation\n");
+		printf("2.Dequeue Operation\n");
+		printf("3.Display Operation\n");
+		scanf("%d", &choice);
+		
+		switch(choice)
+		{
+			case 1:
+				printf("Enqueue Operation:\n");
+				printf("Enter value to be inserted:");
+				scanf("%d", &x);
+				enqueue(a, x, n);
+				break;
+				
+			case 2:
+				printf("Dequeue Operation:\n");
+				dequeue(a, x, n);
+				break;
+				
+			case 3:
+				printf("Display Operation:\n");
+				display(a, n);
+				break;
+				
+			default:
+				printf("Enter valid choice");	
+		}
+	}
+	while(1);
+}
+void enqueue(int a[], int x, int n)
+{
+	printf("Enqueue function front = %d,  rear = %d\n", front, rear);
+	if(rear >= n - 1)
+	{
+		printf("Queue is overflow\n");
+	}
+	else
+	{
+		if(front == -1)
+		{
+			front = front + 1;
+			rear = rear + 1;
+		}
+		else
+		{
+			rear = rear + 1;
+		}
+		a[rear] = x;
+	}
+}
+void dequeue(int a[], int x, int n)
+{
+	printf("Dequeue function front = %d, rear = %d\n", front, rear);
+	if(front == -1)
+	{
+		printf("Queue is underflow\n");
+	}
+	else
+	{
+		x = a[front];
+		printf("Popped element is:%d\n", x);
+		
+		if(front == rear)
+	 	{
+			front = rear = -1;
+		}
+		else
+		{
+			front = front + 1;
+		}
+	}
+}
+void display(int a[], int n)
+{
+	int i;
+	printf("Display function front = %d, rear = %d \n", front, rear);
+	if(front == -1)
+	{
+		printf("Queue is empty \n");
+	}
+	else
+	{
+		for(i = front; i <= rear; i++)
+		{
+			printf("ith element is:%d\n", a[i]);
+		}
+	}
+}
+
+void average(int a[], int n)
+{
+	int sum=0, i, avg=0;
+	for(i = front; i <= rear; i++)
+	{
+		sum = sum + a[i];
+	}
+	avg = sum / (rear - front + 1);
+	printf("Average is:%d\n", avg);
+}
