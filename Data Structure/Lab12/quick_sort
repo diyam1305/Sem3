@@ -1,0 +1,51 @@
+#include<stdio.h>
+void quick_sort(int[], int, int);
+void main()
+{
+	int i, a[50], n;
+	printf("Enter value of n:");
+	scanf("%d", &n);
+	printf("Enter value of elements:");
+	for(i=0; i<n; i++)
+	{
+		scanf("%d", &a[i]);
+	}
+	quick_sort(a, 0, n-1);
+	printf("Array after sorting:");
+	for(i=0; i<n; i++)
+	{
+		printf("%d\n", a[i]);
+	}
+}
+void quick_sort(int a[], int lo_bo, int uo_bo)
+{
+	int pivot, i, j, temp;
+	if(lo_bo < uo_bo)
+	{
+		pivot = lo_bo;
+		i=lo_bo+1;
+		j=uo_bo;
+		while(i<=j)
+		{
+			while(a[i] <= a[pivot] && i<=uo_bo)
+			{
+				i++;
+			}
+			while(a[j] > a[pivot] && j>lo_bo)
+			{
+				j--;
+			} 
+			if(i<j)
+			{
+				temp=a[i];
+				a[i]=a[j];
+				a[j]=temp;	
+			} 
+		}
+		temp=a[pivot];
+		a[pivot]=a[j];
+		a[j]=temp;
+		quick_sort(a, lo_bo, j-1);
+		quick_sort(a, j+1, uo_bo);
+	}
+}
