@@ -1,0 +1,48 @@
+#include<stdio.h>
+#include<string.h>
+int strcomp(char *, char *);
+void main()
+{
+	char s1[50], s2[50], ans;
+	printf("Enter two strings:");
+	gets(s1);
+	gets(s2);
+	
+	ans = strcomp(s1, s2);
+	if(ans==0)
+	{
+		printf("Strings are not same!!!");
+	}
+	else
+	{
+		printf("Strings are same!!!");
+	}
+}
+int strcomp(char *s1, char *s2)
+{
+	int len1 = 0, len2 = 0, i = 0, flag = 0;
+	len1 = strlen(s1);
+	len2 = strlen(s2);
+	
+	if(len1 != len2)
+	{
+		return 0;
+	}
+	else
+	{
+		while(i <= len1)
+		{
+			if(*s1 == *s2)
+			{
+				flag++;
+				return flag;
+			}
+			else
+			{
+				return 0;
+			}
+			i++;
+		}
+	}
+	return 0;
+}
