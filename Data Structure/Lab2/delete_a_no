@@ -1,0 +1,32 @@
+
+#include<stdio.h>
+void delete(int a[], int n);
+void main()
+{
+	int i, n;
+	printf("Enter n:");
+	scanf("%d", &n);
+	int a[n];
+	
+	printf("Enter values here:");
+	for(i=0; i<n; i++)
+	{
+		scanf("%d", &a[i]);
+	}
+	delete(a,n);
+}
+void delete(int a[], int n)
+{
+	int p, i;
+	printf("Enter position:");
+	scanf("%d", &p);
+	p-=i;
+	for(i=p; i<=n; i++)
+	{
+		a[i]=a[i+1];
+	}
+	for(i=1; i<n; i++)
+	{
+		printf("%d", a[i-1]);
+	}
+}
