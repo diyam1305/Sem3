@@ -1,0 +1,26 @@
+#include<stdio.h>
+void append(char [], char []);
+void main()
+{
+	char str1[30], str2[30];
+	printf("Enter your 1st string:");
+	gets(str1);
+
+	printf("Enter your 2nd string:");
+	gets(str2);
+
+	append(str1, str2);
+	puts(str1);
+}
+void append(char *str1, char *str2)
+{
+	while(*str1 != '\0')
+	{
+		str1++;
+	}
+	while(*str2 != '\0')
+	{
+		*str1++ = *str2++;
+	}
+	*str1 = '\0';
+}
